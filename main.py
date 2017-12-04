@@ -68,7 +68,7 @@ def debugprint(*args):
     lines=list(filter(lambda x:len(x)>0, map(lambda x:x.strip(),lines)))
     # you just witnessed the ugliness of python.
     logbuf+=lines
-    if len(logbuf)>200:
+    if len(logbuf)>100:
         logbuf.pop(0) # trim excess length
     VarLog.set('\n'.join(logbuf))
 
@@ -124,12 +124,15 @@ def Start():
 
         # executable names differ from OS to OS
         import sys
-        if sys.platform=='linux':
-            went_bin = 'went_linux64'
-        elif sys.platform=='win32' or sys.platform=='cygwin':
+        if sys.platform=='win32' or sys.platform=='cygwin':
             went_bin = 'went_win64'
+            v2ray_bin = 'v2ray'
+        elif sys.platform=='linux':
+            went_bin = './went_linux64'
+            v2ray_bin = './v2ray'
         elif sys.platform=='darwin':
-            went_bin = 'went_darwin'
+            went_bin = './went_darwin'
+            v2ray_bin = './v2ray'
         else:
             debugprint('Unsupported OS')
             return
@@ -144,7 +147,7 @@ def Start():
             state['instance'] = t,pop
 
             v2t,v2pop = run_subprocess(
-                ['v2ray'],
+                [v2ray_bin],
                 print_callback=debugprint,
                 end_callback=v2ec,
             )
@@ -210,7 +213,7 @@ def OnLoad():
     debugprint('https://github.com/ctmakro/went')
     debugprint('https://github.com/ctmakro/wengui')
     debugprint('https://github.com/v2ray/v2ray-core')
-    debugprint('Requires in CWD: `went` executable; `v2ray` executable & config.json')
+    debugprint('Required in CWD: `went` executable; `v2ray` executable & config.json')
     debugprint('请不要安装使用任何国产杀毒软件/安全工具')
     debugprint('本软件自动设置系统代理 请使用管理员权限运行')
 
