@@ -2,10 +2,13 @@
 
 import sys
 
+def raise_system_unsupported(action):
+    raise NotImplementedError('"{}" on "{}" is not supported'.format(
+        action, sys.platform
+    ))
+
 def setproxy(http,reset=False):
-    if sys.platform=='linux':
-        raise NotImplementedError
-    elif sys.platform=='win32' or sys.platform=='cygwin':
+    if sys.platform=='win32' or sys.platform=='cygwin':
         # write windows registry
         import winreg
         registry_key = winreg.OpenKey(
@@ -40,9 +43,9 @@ def setproxy(http,reset=False):
         winreg.CloseKey(registry_key)
 
     elif sys.platform=='darwin':
-        raise NotImplementedError
+        raise_system_unsupported('changing system-wide proxy')
     else:
-        raise NotImplementedError
+        raise_system_unsupported('changing system-wide proxy')
 
 if __name__ == '__main__':
     setproxy('127.0.0.1:58080',reset=True)

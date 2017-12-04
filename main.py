@@ -151,7 +151,7 @@ def Start():
             state['v2instance'] = v2t,v2pop
         except Exception as e:
             debugprint('Exception on run_subprocess()')
-            debugprint(str(e))
+            debugprint(e)
             Stop()
             return
 
@@ -164,7 +164,7 @@ def Start():
             setproxy(state['http_proxy'])
         except Exception as e:
             debugprint('set system proxy failed')
-            debugprint(str(e))
+            debugprint(e)
         else:
             debugprint('set system proxy success')
 
@@ -189,7 +189,7 @@ def Stop():
         setproxy(state['http_proxy'],reset=True)
     except Exception as e:
         debugprint('unset system proxy failed')
-        debugprint(str(e))
+        debugprint(e)
     else:
         debugprint('unset system proxy success')
 
@@ -201,7 +201,8 @@ def OnLoad():
     try:
         with open('settings.json', 'r') as f:
             settings = json.load(f)
-    except:
+    except Exception as e:
+        debugprint(e)
         settings = {'server_addr':'127.0.0.1'}
 
     VarAddr.set(settings['server_addr'])
