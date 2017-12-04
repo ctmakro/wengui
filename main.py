@@ -168,6 +168,7 @@ def Start():
         except Exception as e:
             debugprint('set system proxy failed')
             debugprint(e)
+            traceback.print_exc()
         else:
             debugprint('set system proxy success')
 
@@ -193,6 +194,7 @@ def Stop():
     except Exception as e:
         debugprint('unset system proxy failed')
         debugprint(e)
+        traceback.print_exc()
     else:
         debugprint('unset system proxy success')
 

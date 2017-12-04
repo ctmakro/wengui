@@ -43,9 +43,12 @@ def setproxy(http,reset=False):
         winreg.CloseKey(registry_key)
 
     elif sys.platform=='darwin':
-        raise_system_unsupported('changing system-wide proxy')
+        # raise_system_unsupported('changing system-wide proxy')
+        from darwin_proxy import set_proxy
+        domain,port = http.split(':')
+        set_proxy(domain,port,reset)
     else:
         raise_system_unsupported('changing system-wide proxy')
 
 if __name__ == '__main__':
-    setproxy('127.0.0.1:58080',reset=True)
+    setproxy('127.0.0.1:58080',reset=False)

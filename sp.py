@@ -7,7 +7,11 @@ def run_subprocess(args, end_callback=None, print_callback=print):
     print_callback(
         '[run_subprocess] starting process "{}"'.format(' '.join(args))
     )
-    pop = sp.Popen(args, stdout=sp.PIPE, stderr=sp.PIPE)
+    pop = sp.Popen(args,
+        # stdin=sp.PIPE,
+        stdout=sp.PIPE,
+        stderr=sp.PIPE
+    )
     def stdout_poll():
         while True:
             err = pop.stderr.readline()
