@@ -9,3 +9,8 @@ geosite.dat
 settings.json
 
 went_darwin
+
+build/
+dist/
+
+main.spec
