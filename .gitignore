@@ -1,1 +1,11 @@
 *.pyc
+
+v2ray
+
+geoip.dat
+
+geosite.dat
+
+settings.json
+
+went_darwin
