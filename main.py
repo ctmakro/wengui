@@ -110,8 +110,8 @@ from sp import run_subprocess
 def Start():
     global state
     addr = VarAddr.get().strip() # the ip address specified
-    if state['instance'] is None:
-        Stop() # just to make sure
+    if state['instance'] is None and state['v2instance'] is None:
+        # Stop() # just to make sure
 
         def ec():
             # callback on process end
@@ -162,19 +162,12 @@ def Start():
         # finally started
         showstate()
 
-        from setproxy import setproxy
-        try:
-            setproxy(state['http_proxy'])
-        except Exception as e:
-            debugprint('set system proxy failed')
-            debugprint(e)
-            traceback.print_exc()
-        else:
-            debugprint('set system proxy success')
+        set_system_proxy(reset=False)
 
     else:
         # if instance exists
         debugprint('Please stop the running instance before starting.')
+        debugprint('启动前请先停止正在运行的实例.')
 
 def Stop():
     global state
@@ -188,15 +181,18 @@ def Stop():
         debugprint('Sending SIGKILL...')
         v2pop.kill()
 
+    set_system_proxy(reset=True)
+
+def set_system_proxy(reset=False):
     from setproxy import setproxy
     try:
-        setproxy(state['http_proxy'],reset=True)
+        setproxy(state['http_proxy'],reset=reset)
     except Exception as e:
-        debugprint('unset system proxy failed')
+        debugprint('un' if reset else ''+'set system proxy failed')
         debugprint(e)
         traceback.print_exc()
     else:
-        debugprint('unset system proxy success')
+        debugprint('un' if reset else ''+'set system proxy success')
 
 settings = {}
 def OnLoad():
