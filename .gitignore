@@ -12,3 +12,5 @@ went_darwin
 
 build/
 dist/
+v2ray.exe
+went_win64.exe
