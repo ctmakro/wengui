@@ -109,6 +109,13 @@ def showstate():
 
 from sp import run_subprocess
 
+def correct_cwd(): # correct cwd when click-executed on OS X
+    import os
+    argv0 = sys.argv[0]
+    dname = os.path.dirname(argv0)
+    debugprint('[correct_cwd] argv0:',argv0,'dname:',dname)
+    os.chdir(dname)
+
 def Start():
     global state
     addr = VarAddr.get().strip() # the ip address specified
@@ -133,6 +140,7 @@ def Start():
             went_bin = './went_linux64'
             v2ray_bin = './v2ray'
         elif sys.platform=='darwin':
+            correct_cwd()
             went_bin = './went_darwin'
             v2ray_bin = './v2ray'
         else:
@@ -177,7 +185,7 @@ def Stop():
         t,pop = state['instance']
         debugprint('Sending SIGKILL...')
         pop.kill()
-        
+
     if state['v2instance'] is not None:
         v2t,v2pop = state['v2instance']
         debugprint('Sending SIGKILL...')
