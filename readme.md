@@ -6,10 +6,20 @@
 
 - v2ray主程序
 - v2ray的config.json
-- went主程序
+- went主程序（名称因OS而异）
 
 ## 运行
 
 ```bash
 $ python main.py
 ```
+
+## 打包
+
+- OSX
+
+  ```bash
+  $ pyinstaller main.spec
+  $ cd ./dist/wengui
+  $ tar -czf wengui_darwin.tar.gz *
+  ```
