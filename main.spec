@@ -8,9 +8,12 @@ include_files = '''
 config.json
 geoip.dat
 geosite.dat
-readme.md
 v2ray
+v2ctl
+
 went_darwin
+
+readme.md
 '''
 
 include_files = include_files.split('\n')
