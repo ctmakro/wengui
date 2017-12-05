@@ -68,9 +68,11 @@ def debugprint(*args):
     lines=list(filter(lambda x:len(x)>0, map(lambda x:x.strip(),lines)))
     # you just witnessed the ugliness of python.
     logbuf+=lines
-    if len(logbuf)>100:
+    if len(logbuf)>50:
         logbuf.pop(0) # trim excess length
-    VarLog.set('\n'.join(logbuf))
+
+    k = '\n'.join(logbuf)
+    VarLog.set(k)
 
 state = {
     'server':'127.0.0.1',
@@ -172,12 +174,12 @@ def Start():
 def Stop():
     global state
     if state['instance'] is not None:
-        pop = state['instance'][1]
+        t,pop = state['instance']
         debugprint('Sending SIGKILL...')
         pop.kill()
-
+        
     if state['v2instance'] is not None:
-        v2pop = state['v2instance'][1]
+        v2t,v2pop = state['v2instance']
         debugprint('Sending SIGKILL...')
         v2pop.kill()
 
@@ -188,11 +190,11 @@ def set_system_proxy(reset=False):
     try:
         setproxy(state['http_proxy'],reset=reset)
     except Exception as e:
-        debugprint('un' if reset else ''+'set system proxy failed')
+        debugprint(('un' if reset else '')+'set system proxy failed')
         debugprint(e)
         traceback.print_exc()
     else:
-        debugprint('un' if reset else ''+'set system proxy success')
+        debugprint(('un' if reset else '')+'set system proxy success')
 
 settings = {}
 def OnLoad():
