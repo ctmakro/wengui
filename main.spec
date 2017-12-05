@@ -5,21 +5,34 @@ block_cipher = None
 executable_name = 'wengui'
 
 include_files = '''
-config.json
-geoip.dat
-geosite.dat
-v2ray
-v2ctl
+./config.json
+./geoip.dat
+./geosite.dat
 
-went_darwin
-
-readme.md
+./readme.md
 '''
 
 include_files = include_files.split('\n')
 include_files = map(lambda x:x.strip(),include_files)
 include_files = filter(lambda x:len(x)>0,include_files)
 include_files = list(include_files)
+
+import sys
+if sys.platform=='win32':
+    include_files+=[
+        './v2ray.exe',
+        './v2ctl.exe',
+        './went_win64.exe',
+    ]
+elif sys.platform=='darwin':
+    include_files+=[
+        './went_darwin',
+        './v2ray',
+        './v2ctl',
+    ]
+else:
+    raise NotImplementedError('system not supported for pyinstalling.')
+
 datas = [(n,'.') for n in include_files]
 
 
