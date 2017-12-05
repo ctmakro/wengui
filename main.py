@@ -110,11 +110,18 @@ def showstate():
 from sp import run_subprocess
 
 def correct_cwd(): # correct cwd when click-executed on OS X
-    import os
-    argv0 = sys.argv[0]
-    dname = os.path.dirname(argv0)
-    debugprint('[correct_cwd] argv0:',argv0,'dname:',dname)
-    os.chdir(dname)
+    # as per https://stackoverflow.com/a/42615559
+    import sys, os
+    if getattr(sys, 'frozen', False):
+        # If the application is run as a bundle, the pyInstaller bootloader
+        # extends the sys module by a flag frozen=True and sets the app
+        # path into variable _MEIPASS'.
+        application_path = sys._MEIPASS
+    else:
+        application_path = os.path.dirname(os.path.abspath(__file__))
+
+    debugprint('[correct_cwd] app_path:', application_path)
+    os.chdir(application_path)
 
 def Start():
     global state
